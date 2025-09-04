@@ -18,6 +18,6 @@ pip install flet
 ```
 ## Start building process
 ```
-flet pack
+flet pack main.py
 ```
 Executable will be in dist folder.
