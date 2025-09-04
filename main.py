@@ -15,13 +15,14 @@ def app(page: ft.Page):
     timer_thread = None
     remaining_time = 0
     killed = False
+    completed = False
     
     main_text = ft.Text(value="Timer App",size=30)
     alert_text = ft.Text(value="Please enter a valid value ...", color="red", visible=False)
     time_area = ft.TextField(label="Seconds", hint_text="Enter seconds", text_align="right")
     
     def timer_function():
-        nonlocal remaining_time, killed
+        nonlocal remaining_time, killed, completed
         try:
             while remaining_time > 0:
                 main_text.value = f"{remaining_time} seconds left!"
@@ -38,6 +39,7 @@ def app(page: ft.Page):
                 main_text.value = "Timer Finished"
                 main_text.color = ft.Colors.GREEN
                 page.update()
+                completed = True
                 while not killed:
                     pass
                 main_text.value="Timer App"
@@ -45,6 +47,7 @@ def app(page: ft.Page):
                 controls_row.visible = False
                 timeset_row.visible = True
                 time_area.value = None
+                completed = False
                 page.update()
             else:
                 killed = False
@@ -60,13 +63,18 @@ def app(page: ft.Page):
     
     def reset(e):
         nonlocal remaining_time
-        remaining_time = starting_time
+        if not completed:
+            remaining_time = starting_time
+        else:
+            start_timer(e)
+            main_text.color = ft.Colors.WHITE
+            page.update()
         
     def start_timer(e):
         nonlocal remaining_time, timer_thread, starting_time
         try:
-            starting_time = int(time_area.value)
             remaining_time = int(time_area.value)
+            starting_time = int(time_area.value)
             timeset_row.visible = False
             controls_row.visible = True
             alert_text.visible = False
