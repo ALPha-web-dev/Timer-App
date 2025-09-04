@@ -1,6 +1,7 @@
 # Timer-App
 ![screenshot](screenshot.png)
-A time app made with python usin Flet (Flutter)
+# 
+A time app made with python using Flet (Flutter)
 > This app only have Linux  build currently, but on later updates I will add windows build :)
 
 # Building
